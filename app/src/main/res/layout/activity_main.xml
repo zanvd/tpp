@@ -1,19 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	tools:context="com.oo.tpp.MainActivity">
+	android:layout_height="match_parent">
 
-	<TextView
+	<ScrollView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="Hello World!"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintTop_toTopOf="parent"/>
+		android:id="@+id/scrollView"
+		android:layout_centerHorizontal="true"
+		android:foregroundGravity="top|right"
+		android:layout_alignParentTop="true"
+		android:clickable="true">
 
-</android.support.constraint.ConstraintLayout>
+	</ScrollView>
+
+	<TextView
+		android:id="@+id/textView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="53dp"
+		android:text="Preverjanje lokacije...."
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:layout_below="@+id/scrollView"
+		android:layout_centerHorizontal="true" />
+
+	<Button
+		android:id="@+id/button"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Poezija"
+		android:visibility="invisible"
+		android:layout_above="@+id/button2"
+		android:layout_centerHorizontal="true"
+		android:layout_marginBottom="17dp" />
+
+	<Button
+		android:id="@+id/button2"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignLeft="@+id/button"
+		android:layout_alignParentBottom="true"
+		android:layout_alignStart="@+id/button"
+		android:layout_marginBottom="190dp"
+		android:visibility="invisible"
+		android:text="Slike" />
+
+</RelativeLayout>

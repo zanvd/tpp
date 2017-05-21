@@ -6,4 +6,19 @@
     android:layout_height="match_parent"
     tools:context="com.oo.tpp.menu">
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Poezija"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="188dp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Slike"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="244dp" />
 </android.support.constraint.ConstraintLayout>
