@@ -1,8 +1,10 @@
 package com.oo.tpp;
 
+import android.Manifest;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -10,7 +12,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.widget.Button;
+import android.support.v4.app.ActivityCompat;
 
 /**
  * Created by Cesar on 21-May-17.
@@ -34,8 +36,8 @@ public class GPS_Service extends Service {
             @Override
             public void onLocationChanged(Location location) {
                 Intent i = new Intent("location_update");
-                i.putExtra("longitude",location.getLongitude());
-                i.putExtra("latitude",location.getLatitude());
+                i.putExtra("longitude", location.getLongitude());
+                i.putExtra("latitude", location.getLatitude());
                 sendBroadcast(i);
             }
 
@@ -60,8 +62,7 @@ public class GPS_Service extends Service {
         locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
         //noinspection MissingPermission
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,3000,0,listener);
-
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, listener);
     }
 
     @Override
