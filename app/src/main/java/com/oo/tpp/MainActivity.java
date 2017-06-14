@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
+import android.renderscript.ScriptGroup;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -22,8 +23,12 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
@@ -53,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 		scrollPicture.setVisibility(View.INVISIBLE);
 
 		LinearLayout layoutPicture = (LinearLayout) findViewById(R.id.layout_picture);
-		Integer[] images = new Location().getImages(2);
+		Integer[] images = new Location().getImages(1);
 		for (Integer image : images) {
 			layoutPicture.addView(getImageView(image));
 		}
@@ -63,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 		scrollPoetry.setVisibility(View.INVISIBLE);
 
 		LinearLayout layoutPoetry = (LinearLayout) findViewById(R.id.layout_poetry);
-		String[] fileNames = new Location().getPoetries(2);
+		String[] fileNames = new Location().getPoetries(1);
 		for (String fileName : fileNames) {
 			layoutPoetry.addView(getPoetryView(fileName));
 		}
@@ -136,13 +141,31 @@ public class MainActivity extends AppCompatActivity {
 		layoutParams.setMargins(0, 0, 10, 0);
 		scrollView.setLayoutParams(layoutParams);
 
-		File file = new File("drawable", fileName);
 		TextView textView = new TextView(getApplicationContext());
+		StringBuilder text = new StringBuilder();
+		BufferedReader reader = null;
 		try {
-			textView.setText(new Scanner(file).useDelimiter("\\Z").next());
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			 reader = new BufferedReader(
+					new InputStreamReader(getAssets().open(fileName)));
+
+			String line;
+			while ((line = reader.readLine()) != null) {
+				text.append(line);
+				text.append('\n');
+			}
+		} catch (IOException e) {
+			Log.d(TAG, e.getMessage());
 		}
+
+		if (reader != null) {
+			try {
+				reader.close();
+			} catch (IOException e) {
+				Log.d(TAG, e.getMessage());
+			}
+		}
+
+		textView.setText(text);
 
 		scrollView.addView(textView);
 
@@ -156,8 +179,6 @@ public class MainActivity extends AppCompatActivity {
 			broadcastReceiver = new BroadcastReceiver() {
 				@Override
 				public void onReceive(Context context, Intent intent) {
-
-				if (!locationFound) {
 					if (intent.getDoubleExtra("longitude", 0) >= 14.3 &&
 							intent.getDoubleExtra("longitude", 0) <= 14.7 &&
 							intent.getDoubleExtra("latitude", 0) >= 46 &&
@@ -165,11 +186,7 @@ public class MainActivity extends AppCompatActivity {
 						locationFound=true;
 //						textView.setText("Lokacija najdena");
 						//startActivity(new Intent(MainActivity.this, menu.class));
-					} else {
-//						textView.setText("Ne nahajate se na območju tržaške pesniške poti,");
 					}
-				}
-
 				}
 			};
 		}

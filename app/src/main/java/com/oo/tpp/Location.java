@@ -1,5 +1,7 @@
 package com.oo.tpp;
 
+import android.util.Log;
+
 /**
  * Class which stores locations.
  * Every location consists of coordinates, poetry text and location images.
@@ -58,7 +60,7 @@ public class Location {
 	 */
 	public int getLocationIndex (double lat, double lon) {
 		for (int i = 0; i < coordinates.length; i++) {
-			if (coordinates[i][0] == lat && coordinates[i][1] == lon)
+			if (distance(lat, lon, coordinates[i][0], coordinates[i][1]) < 0.01)
 				return i;
 		}
 
@@ -83,5 +85,26 @@ public class Location {
 	 */
 	public String[] getPoetries (int location) {
 		return poetries[location];
+	}
+
+	private double distance(double lat1, double lon1, double lat2, double lon2) {
+		double theta = lon1 - lon2;
+		double dist = Math.sin(deg2rad(lat1))
+				* Math.sin(deg2rad(lat2))
+				+ Math.cos(deg2rad(lat1))
+				* Math.cos(deg2rad(lat2))
+				* Math.cos(deg2rad(theta));
+		dist = Math.acos(dist);
+		dist = rad2deg(dist);
+		dist = dist * 60 * 1.1515;
+		return (dist);
+	}
+
+	private double deg2rad(double deg) {
+		return (deg * Math.PI / 180.0);
+	}
+
+	private double rad2deg(double rad) {
+		return (rad * 180.0 / Math.PI);
 	}
 }
