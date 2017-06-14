@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+				xmlns:tools="http://schemas.android.com/tools"
+				android:id="@+id/main_layout"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
 
 	<ScrollView
+		android:id="@+id/scrollView"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:id="@+id/scrollView"
-		android:layout_centerHorizontal="true"
-		android:foregroundGravity="top|right"
 		android:layout_alignParentTop="true"
-		android:clickable="true">
+		android:layout_centerHorizontal="true"
+		android:clickable="true"
+		android:foregroundGravity="top|right">
 
 	</ScrollView>
 
@@ -19,21 +20,21 @@
 		android:id="@+id/textView"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:layout_below="@+id/scrollView"
+		android:layout_centerHorizontal="true"
 		android:layout_marginTop="53dp"
 		android:text="Preverjanje lokacije...."
-		android:textAppearance="?android:attr/textAppearanceLarge"
-		android:layout_below="@+id/scrollView"
-		android:layout_centerHorizontal="true" />
+		android:textAppearance="?android:attr/textAppearanceLarge"/>
 
 	<Button
 		android:id="@+id/button"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="Poezija"
-		android:visibility="invisible"
 		android:layout_above="@+id/button2"
 		android:layout_centerHorizontal="true"
-		android:layout_marginBottom="17dp" />
+		android:layout_marginBottom="17dp"
+		android:text="Poezija"
+		android:visibility="invisible"/>
 
 	<Button
 		android:id="@+id/button2"
@@ -43,7 +44,7 @@
 		android:layout_alignParentBottom="true"
 		android:layout_alignStart="@+id/button"
 		android:layout_marginBottom="190dp"
-		android:visibility="invisible"
-		android:text="Slike" />
+		android:text="Slike"
+		android:visibility="invisible"/>
 
 </RelativeLayout>
