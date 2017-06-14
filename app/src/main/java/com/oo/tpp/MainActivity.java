@@ -6,14 +6,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
-import android.renderscript.ScriptGroup;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -24,18 +26,15 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
 	private final String TAG = "tpp";
 
 	private Button buttonPoetry, buttonPicture;
 	private HorizontalScrollView scrollPoetry, scrollPicture;
+	private LinearLayout layoutPoetry, layoutPicture;
 	private BroadcastReceiver broadcastReceiver;
 	boolean locationFound = false;
 	private Camera camera;
@@ -46,32 +45,21 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		// Initialize camera.
-		this.initializeCamera();
-
 		// Initialize buttons.
 		buttonPoetry = (Button) findViewById(R.id.button_poetry);
+		buttonPoetry.setVisibility(View.INVISIBLE);
 		buttonPicture = (Button) findViewById(R.id.button_picture);
+		buttonPicture.setVisibility(View.INVISIBLE);
 
 		// Initialize picture scroll.
 		scrollPicture = (HorizontalScrollView) findViewById(R.id.scroll_picture);
 		scrollPicture.setVisibility(View.INVISIBLE);
-
-		LinearLayout layoutPicture = (LinearLayout) findViewById(R.id.layout_picture);
-		Integer[] images = new Location().getImages(1);
-		for (Integer image : images) {
-			layoutPicture.addView(getImageView(image));
-		}
+		layoutPicture = (LinearLayout) findViewById(R.id.layout_picture);
 
 		// Initialize poetry scroll.
 		scrollPoetry = (HorizontalScrollView) findViewById(R.id.scroll_poetry);
 		scrollPoetry.setVisibility(View.INVISIBLE);
-
-		LinearLayout layoutPoetry = (LinearLayout) findViewById(R.id.layout_poetry);
-		String[] fileNames = new Location().getPoetries(1);
-		for (String fileName : fileNames) {
-			layoutPoetry.addView(getPoetryView(fileName));
-		}
+		layoutPoetry = (LinearLayout) findViewById(R.id.layout_poetry);
 
 		// Set button on click listeners.
 		buttonPoetry.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +90,12 @@ public class MainActivity extends AppCompatActivity {
 			Intent i = new Intent(getApplicationContext(), GPS_Service.class);
 			startService(i);
 		}
+
+		// Initialize camera.
+		this.initializeCamera();
+
+		// Initialize broadcast receiver.
+		this.initializeBroadcastReceiver();
 	}
 
 	/**
@@ -114,10 +108,10 @@ public class MainActivity extends AppCompatActivity {
 		ImageView imageView = new ImageView(getApplicationContext());
 
 		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.WRAP_CONTENT,
+				Resources.getSystem().getDisplayMetrics().widthPixels - 20,
 				LinearLayout.LayoutParams.WRAP_CONTENT);
+		layoutParams.setMargins(10, 0, 10, 0);
 
-		layoutParams.setMargins(0, 0, 10, 0);
 		imageView.setLayoutParams(layoutParams);
 
 		imageView.setImageResource(image);
@@ -138,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 				LinearLayout.LayoutParams.WRAP_CONTENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT);
 
-		layoutParams.setMargins(0, 0, 10, 0);
+		layoutParams.setMargins(10, 0, 10, 0);
 		scrollView.setLayoutParams(layoutParams);
 
 		TextView textView = new TextView(getApplicationContext());
@@ -166,6 +160,13 @@ public class MainActivity extends AppCompatActivity {
 		}
 
 		textView.setText(text);
+		textView.setBackgroundColor(Color.parseColor("#A4000000"));
+		textView.setPadding(10, 10, 10, 10);
+		LinearLayout.LayoutParams textLayout = new LinearLayout.LayoutParams(
+				Resources.getSystem().getDisplayMetrics().widthPixels - 20,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+		textView.setLayoutParams(textLayout);
+		textView.setGravity(Gravity.CENTER);
 
 		scrollView.addView(textView);
 
@@ -176,21 +177,8 @@ public class MainActivity extends AppCompatActivity {
 	protected void onResume () {
 		super.onResume();
 		if(broadcastReceiver == null){
-			broadcastReceiver = new BroadcastReceiver() {
-				@Override
-				public void onReceive(Context context, Intent intent) {
-					if (intent.getDoubleExtra("longitude", 0) >= 14.3 &&
-							intent.getDoubleExtra("longitude", 0) <= 14.7 &&
-							intent.getDoubleExtra("latitude", 0) >= 46 &&
-							intent.getDoubleExtra("latitude", 0) <= 46.1) {
-						locationFound=true;
-//						textView.setText("Lokacija najdena");
-						//startActivity(new Intent(MainActivity.this, menu.class));
-					}
-				}
-			};
+			this.initializeBroadcastReceiver();
 		}
-		registerReceiver(broadcastReceiver,new IntentFilter("location_update"));
 
 		// Re-initialize camera.
 		if (this.camera == null)
@@ -225,6 +213,61 @@ public class MainActivity extends AppCompatActivity {
 		if (this.cameraPreview != null) {
 			this.cameraPreview.destroyDrawingCache();
 			this.cameraPreview = null;
+		}
+	}
+
+	private void initializeBroadcastReceiver () {
+		broadcastReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				// Retrieve locations index.
+				int locationIndex = new Location().getLocationIndex(
+						intent.getDoubleExtra("latitude", 0),
+						intent.getDoubleExtra("longitude", 0));
+				Log.d(TAG, "Geo location: " + intent.getDoubleExtra("latitude", 0) + " " + intent.getDoubleExtra("longitude", 0));
+				Log.d(TAG, "Location Index: " + locationIndex);
+				if (locationIndex != -1) {
+					// Load poetry.
+					String[] fileNames = new Location().getPoetries(1);
+					for (String fileName : fileNames) {
+						layoutPoetry.addView(getPoetryView(fileName));
+					}
+					// Check if there is any poetry and show the button.
+					if (fileNames.length > 0)
+						buttonPoetry.setVisibility(View.VISIBLE);
+					else
+						buttonPoetry.setVisibility(View.INVISIBLE);
+
+					// Load images.
+					Integer[] images = new Location().getImages(1);
+					for (Integer image : images) {
+						layoutPicture.addView(getImageView(image));
+					}
+					// Check if there are any images and show the button.
+					if (images.length > 0)
+						buttonPicture.setVisibility(View.VISIBLE);
+					else
+						buttonPicture.setVisibility(View.INVISIBLE);
+				} else {
+					// Hide all content if shown.
+					if (buttonPoetry.getVisibility() == View.VISIBLE)
+						buttonPoetry.setVisibility(View.INVISIBLE);
+
+					if (buttonPicture.getVisibility() == View.VISIBLE)
+						buttonPicture.setVisibility(View.INVISIBLE);
+
+					if (scrollPoetry.getVisibility() == View.VISIBLE)
+						scrollPoetry.setVisibility(View.INVISIBLE);
+
+					if (scrollPicture.getVisibility() == View.VISIBLE)
+						scrollPicture.setVisibility(View.INVISIBLE);
+				}
+			}
+		};
+		try {
+			registerReceiver(broadcastReceiver,new IntentFilter("location_update"));
+		} catch (Exception e) {
+			Log.d(TAG, "Failed to register the receiver: " + e.getMessage());
 		}
 	}
 
