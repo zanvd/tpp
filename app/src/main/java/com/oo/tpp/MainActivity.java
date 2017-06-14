@@ -266,8 +266,10 @@ public class MainActivity extends AppCompatActivity {
 				ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) 
 						!= PackageManager.PERMISSION_GRANTED && 
 				ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) 
-						!= PackageManager.PERMISSION_GRANTED)	{
-			requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION },100 );
+						!= PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED)	{
+			requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,  Manifest.permission.CAMERA },100 );
 
 			return true;
 
@@ -279,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
 	public void OnRequestPermissionsResult (int requestCode, @NonNull String [] permissions, @NonNull int[] grantResults){
 		super.onRequestPermissionsResult(requestCode, permissions,grantResults);
 		if(requestCode == 100){
-			if(grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
+			if(grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED){
 				Intent i = new Intent(getApplicationContext(), GPS_Service.class);
 				startService(i);
 			}
