@@ -13,8 +13,18 @@ import android.widget.TextView;
  */
 
 public class swipeImage extends PagerAdapter {
+    public static int selectedImages= 0;
 
-    private int [] images ={R.drawable.s1,R.drawable.s2,R.drawable.s3,R.drawable.s4};
+    private int [] images1 ={R.drawable.slika11,R.drawable.slika12,R.drawable.slika13, R.drawable.slika14, R.drawable.slika15};
+    private int [] images2 ={R.drawable.slika21,R.drawable.slika22,R.drawable.slika23, R.drawable.slika24};
+    private int [] images3 ={R.drawable.slika31, R.drawable.slika32};
+    private int [] images4 ={R.drawable.slika41};
+    private int [] images5 ={R.drawable.slika51,R.drawable.slika52,R.drawable.slika53};
+    private int [] images6 ={R.drawable.slika61, R.drawable.slika62, R.drawable.slika63, R.drawable.slika64};
+    private int [] images7 ={R.drawable.slika71,R.drawable.slika72};
+    private int [] images8 ={R.drawable.slika81, R.drawable.slika82};
+    private int [] images9 ={R.drawable.slika9};
+    private int [] [] collection = {images1, images2,images3, images4, images5, images6, images7, images8, images9};
     private Context ctx;
     private LayoutInflater layoutInflater;
 
@@ -25,7 +35,7 @@ public class swipeImage extends PagerAdapter {
     @Override
     public int getCount() {
 
-        return images.length;
+        return collection[selectedImages].length;
     }
 
     @Override
@@ -34,9 +44,13 @@ public class swipeImage extends PagerAdapter {
         View itemView = layoutInflater.inflate(R.layout.activity_swipe_image2,container,false);
         ImageView imageView = (ImageView) itemView.findViewById(R.id.image_view);
         TextView textView = (TextView) itemView.findViewById(R.id.imageCount);
-        imageView.setImageResource(images[position]);
+        imageView.setImageResource(collection[selectedImages][position]);
         container.addView(itemView);
         return itemView;
+    }
+
+    public void setId(int id) {
+        selectedImages = id;
     }
 
     @Override

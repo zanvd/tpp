@@ -1,49 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:orientation="vertical"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:layout_height="match_parent"
+	>
 
-	<ScrollView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:id="@+id/scrollView"
-		android:layout_centerHorizontal="true"
-		android:foregroundGravity="top|right"
-		android:layout_alignParentTop="true"
-		android:clickable="true">
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="0px"
+		android:layout_weight="1"
+		android:background="@android:color/background_dark">
 
-	</ScrollView>
+		<TextView
+			android:id="@+id/textView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerHorizontal="true"
+			android:layout_marginTop="53dp"
+			android:text="Pridobivanje lokacije..."
+			android:textAppearance="?android:attr/textAppearanceLarge"
+			android:textColor="#ffffff" />
+	</RelativeLayout>
 
-	<TextView
-		android:id="@+id/textView"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="53dp"
-		android:text="Preverjanje lokacije...."
-		android:textAppearance="?android:attr/textAppearanceLarge"
-		android:layout_below="@+id/scrollView"
-		android:layout_centerHorizontal="true" />
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="0px"
+		android:layout_weight="2"
+		android:orientation="horizontal">
 
-	<Button
-		android:id="@+id/button"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="Poezija"
-		android:visibility="invisible"
-		android:layout_above="@+id/button2"
-		android:layout_centerHorizontal="true"
-		android:layout_marginBottom="17dp" />
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_weight="0.5">
 
-	<Button
-		android:id="@+id/button2"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignLeft="@+id/button"
-		android:layout_alignParentBottom="true"
-		android:layout_alignStart="@+id/button"
-		android:layout_marginBottom="190dp"
-		android:visibility="invisible"
-		android:text="Slike" />
 
-</RelativeLayout>
+			<ImageView
+				android:id="@+id/imageView"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerHorizontal="true"
+				android:layout_centerVertical="true"
+				android:scaleType="centerCrop"
+				app:srcCompat="@drawable/thumb1" />
+
+			<Button
+				android:id="@+id/button"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_centerHorizontal="true"
+				android:layout_centerVertical="true"
+				android:background="#a4000000"
+				android:text="Poezija"
+				android:textColor="#ffffff"
+				android:textSize="36sp" />
+		</RelativeLayout>
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_weight="0.5">
+
+
+			<ImageView
+				android:id="@+id/imageView2"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_centerHorizontal="true"
+				android:layout_centerVertical="true"
+				android:scaleType="centerCrop"
+				app:srcCompat="@drawable/thumb2" />
+
+			<Button
+				android:id="@+id/button2"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_centerHorizontal="true"
+				android:layout_centerVertical="true"
+				android:background="#a4000000"
+				android:text="slike"
+				android:textColor="#ffffff"
+				android:textSize="36sp" />
+
+		</RelativeLayout>
+	</LinearLayout>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="0px"
+		android:layout_weight="2">
+
+		<Button
+			android:id="@+id/button6"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:background="#a4000000"
+			android:text="zemljevid"
+			android:textColor="#ffffff"
+			android:textSize="36sp" />
+
+		<ImageView
+			android:id="@+id/imageView3"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerHorizontal="true"
+			android:layout_centerVertical="true"
+			android:scaleType="centerCrop"
+			app:srcCompat="@drawable/thumb3" />
+	</RelativeLayout>
+
+
+</LinearLayout>
