@@ -1,10 +1,12 @@
 package com.oo.tpp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.util.Log;
+import android.view.Surface;
 
 public class CameraHelper {
 	private static final String TAG = "tpp";
@@ -31,6 +33,7 @@ public class CameraHelper {
 			}
 
 			camera = Camera.open(cameraId);
+			
 		} catch (Exception e) {
 			Log.d(TAG, "Error opening camera: " + e.getMessage());
 		}

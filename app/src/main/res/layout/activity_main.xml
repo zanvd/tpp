@@ -1,50 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-				xmlns:tools="http://schemas.android.com/tools"
-				android:id="@+id/main_layout"
+				android:id="@+id/layout_main"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent">
-
-	<ScrollView
-		android:id="@+id/scrollView"
+				android:layout_height="match_parent"
+				android:orientation="vertical"
+	>
+	<FrameLayout
+		android:id="@+id/layout_camera"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		/>
+	<FrameLayout
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_alignParentTop="true"
-		android:layout_centerHorizontal="true"
-		android:clickable="true"
-		android:foregroundGravity="top|right">
-
-	</ScrollView>
-
-	<TextView
-		android:id="@+id/textView"
-		android:layout_width="wrap_content"
+		>
+		<HorizontalScrollView
+			android:id="@+id/scroll_picture"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			>
+			<LinearLayout
+				android:id="@+id/layout_picture"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				/>
+		</HorizontalScrollView>
+		<HorizontalScrollView
+			android:id="@+id/scroll_poetry"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			>
+			<LinearLayout
+				android:id="@+id/layout_poetry"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				/>
+		</HorizontalScrollView>
+	</FrameLayout>
+	<FrameLayout
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_below="@+id/scrollView"
-		android:layout_centerHorizontal="true"
-		android:layout_marginTop="53dp"
-		android:text="Preverjanje lokacije...."
-		android:textAppearance="?android:attr/textAppearanceLarge"/>
-
-	<Button
-		android:id="@+id/button"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_above="@+id/button2"
-		android:layout_centerHorizontal="true"
-		android:layout_marginBottom="17dp"
-		android:text="Poezija"
-		android:visibility="invisible"/>
-
-	<Button
-		android:id="@+id/button2"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignLeft="@+id/button"
 		android:layout_alignParentBottom="true"
-		android:layout_alignStart="@+id/button"
-		android:layout_marginBottom="190dp"
-		android:text="Slike"
-		android:visibility="invisible"/>
+		>
+		<Button
+			android:id="@+id/button_poetry"
+			android:text="@string/button_poetry"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="bottom|start"
+			/>
 
+		<Button
+			android:id="@+id/button_picture"
+			android:text="@string/button_pictures"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="bottom|end"
+			/>
+	</FrameLayout>
 </RelativeLayout>
