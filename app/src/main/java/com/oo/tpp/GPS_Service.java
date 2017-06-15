@@ -38,7 +38,7 @@ public class GPS_Service extends Service {
 				i.putExtra("longitude", location.getLongitude());
 				i.putExtra("latitude", location.getLatitude());
 				sendBroadcast(i);
-				Log.d("tpp", i.getDataString());
+				//Log.d("tpp", i.getDataString());
 			}
 
 			@Override

@@ -1,6 +1,7 @@
 <resources>
-	<string name="app_name">Tržaška pesniška pot</string>
-	<string name="button_pictures">Pictures</string>
-	<string name="button_poetry">Poetry</string>
-	<string name="location_pictures">Location pictures</string>
+    <string name="app_name">Tržaška pesniška pot</string>
+    <string name="button_pictures">Pictures</string>
+    <string name="button_poetry">Poetry</string>
+    <string name="location_pictures">Location pictures</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

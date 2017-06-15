@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-				android:id="@+id/layout_main"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:id="@+id/layout_main"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:orientation="vertical"
@@ -9,7 +10,11 @@
 		android:id="@+id/layout_camera"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		/>
+		>
+
+
+
+	</FrameLayout>
 	<FrameLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -47,20 +52,31 @@
 		android:layout_height="wrap_content"
 		android:layout_alignParentBottom="true"
 		>
-		<Button
-			android:id="@+id/button_poetry"
-			android:text="@string/button_poetry"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="bottom|start"
-			/>
 
-		<Button
+		<ImageButton
+			android:id="@+id/button_poetry"
+			android:layout_width="69dp"
+			android:layout_height="60dp"
+			android:layout_gravity="bottom|start"
+			android:background="#00000000"
+			app:srcCompat="@drawable/feathericonbutton" />
+
+        <ImageButton
+            android:id="@+id/button_map"
+            android:layout_width="69dp"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom|center"
+            android:background="#00000000"
+            app:srcCompat="@drawable/mapiconbutton" />
+
+		<ImageButton
 			android:id="@+id/button_picture"
-			android:text="@string/button_pictures"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:layout_width="69dp"
+			android:layout_height="60dp"
 			android:layout_gravity="bottom|end"
-			/>
+			android:background="#00000000"
+			app:srcCompat="@drawable/picturesiconbutton" />
+
+
 	</FrameLayout>
 </RelativeLayout>

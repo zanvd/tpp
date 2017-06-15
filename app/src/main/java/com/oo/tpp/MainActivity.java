@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -32,7 +33,7 @@ import java.io.InputStreamReader;
 public class MainActivity extends AppCompatActivity {
 	private final String TAG = "tpp";
 
-	private Button buttonPoetry, buttonPicture;
+	private ImageButton buttonPoetry, buttonPicture, buttonMap;
 	private HorizontalScrollView scrollPoetry, scrollPicture;
 	private LinearLayout layoutPoetry, layoutPicture;
 	private BroadcastReceiver broadcastReceiver;
@@ -46,10 +47,11 @@ public class MainActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_main);
 
 		// Initialize buttons.
-		buttonPoetry = (Button) findViewById(R.id.button_poetry);
+		buttonPoetry = (ImageButton) findViewById(R.id.button_poetry);
 		buttonPoetry.setVisibility(View.INVISIBLE);
-		buttonPicture = (Button) findViewById(R.id.button_picture);
+		buttonPicture = (ImageButton) findViewById(R.id.button_picture);
 		buttonPicture.setVisibility(View.INVISIBLE);
+		buttonMap = (ImageButton) findViewById(R.id.button_map);
 
 		// Initialize picture scroll.
 		scrollPicture = (HorizontalScrollView) findViewById(R.id.scroll_picture);
@@ -62,6 +64,16 @@ public class MainActivity extends AppCompatActivity {
 		layoutPoetry = (LinearLayout) findViewById(R.id.layout_poetry);
 
 		// Set button on click listeners.
+
+		buttonMap.setOnClickListener(new View.OnClickListener(){
+			@Override
+			public void onClick(View v){
+				Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+				startActivity(intent);
+
+			}
+		});
+
 		buttonPoetry.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick (View v) {
