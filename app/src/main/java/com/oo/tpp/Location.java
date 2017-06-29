@@ -24,8 +24,7 @@ public class Location {
 			{45.649177, 13.771725},
 			{45.641048, 13.760923},
 			{45.654261, 13.775756},
-			{45.654371, 13.785728},
-			{46.073230, 14.539583}	// For testing only.
+			{45.654371, 13.785728}
 	};
 
 	private Integer[][] images = {
@@ -39,8 +38,7 @@ public class Location {
 			{R.drawable.i5_1, R.drawable.i5_2, R.drawable.i5_3},
 			{R.drawable.i6_1, R.drawable.i6_2, R.drawable.i6_3, R.drawable.i6_4},
 			{R.drawable.i7_1, R.drawable.i7_2},
-			{R.drawable.i8_1, R.drawable.i8_2},
-			{R.drawable.i1_1, R.drawable.i1_2, R.drawable.i1_3, R.drawable.i1_4, R.drawable.i1_5} // For testing only.
+			{R.drawable.i8_1, R.drawable.i8_2}
 	};
 
 	private String[][] poetries = {
@@ -48,8 +46,7 @@ public class Location {
 			{"p2_1.txt", "p2_2.txt", "p2_3.txt", "p2_4.txt"},
 			{"p3_1.txt", "p3_2.txt"},
 			{"p4_1.txt", "p4_2.txt", "p4_3.txt"},
-			{},{},{},{},
-			{"p4_1.txt", "p4_2.txt", "p4_3.txt"}
+			{},{},{},{}
 	};
 
 	/**
@@ -61,7 +58,7 @@ public class Location {
 	 */
 	public int getLocationIndex (double lat, double lon) {
 		for (int i = 0; i < coordinates.length; i++) {
-			if (distance(lat, lon, coordinates[i][0], coordinates[i][1]) < 0.01)
+			if (distance(lat, lon, coordinates[i][0], coordinates[i][1]) < 0.02)
 				return i;
 		}
 

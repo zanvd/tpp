@@ -1,15 +1,14 @@
 package com.oo.tpp;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.util.Log;
-import android.view.Surface;
 
 public class CameraHelper {
 	private static final String TAG = "tpp";
+	private static int cameraId;
 
 	/**
 	 * Reatrieve a camera back facing instance.
@@ -19,7 +18,7 @@ public class CameraHelper {
 		Camera camera = null;
 		try {
 			// Iterate over all available cameras.
-			int cameraId = -1;
+			cameraId = -1;
 			int numOfCamera = camera.getNumberOfCameras();
 			CameraInfo info = new CameraInfo();
 
@@ -49,5 +48,14 @@ public class CameraHelper {
 	 */
 	public static boolean checkCameraHardware (Context context) {
 		return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
+	}
+
+	/**
+	 * Get camera id.
+	 *
+	 * @return int
+	 */
+	public static int getCameraId () {
+		return cameraId;
 	}
 }

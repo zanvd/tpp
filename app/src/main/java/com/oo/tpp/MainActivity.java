@@ -16,8 +16,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Surface;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
@@ -35,9 +35,9 @@ public class MainActivity extends AppCompatActivity {
 
 	private ImageButton buttonPoetry, buttonPicture, buttonMap;
 	private HorizontalScrollView scrollPoetry, scrollPicture;
+	private boolean onLocation = false;
 	private LinearLayout layoutPoetry, layoutPicture;
 	private BroadcastReceiver broadcastReceiver;
-	boolean locationFound = false;
 	private Camera camera;
 	private CameraPreview cameraPreview;
 
@@ -238,11 +238,13 @@ public class MainActivity extends AppCompatActivity {
 						intent.getDoubleExtra("longitude", 0));
 				Log.d(TAG, "Geo location: " + intent.getDoubleExtra("latitude", 0) + " " + intent.getDoubleExtra("longitude", 0));
 				Log.d(TAG, "Location Index: " + locationIndex);
-				if (locationIndex != -1) {
+				if (locationIndex != -1 && !onLocation) {
+					onLocation = true;
 					// Load poetry.
-					String[] fileNames = new Location().getPoetries(1);
+					String[] fileNames = new Location().getPoetries(locationIndex);
 					for (String fileName : fileNames) {
-						layoutPoetry.addView(getPoetryView(fileName));
+						ScrollView poetView = getPoetryView(fileName);
+						layoutPoetry.addView(poetView);
 					}
 					// Check if there is any poetry and show the button.
 					if (fileNames.length > 0)
@@ -251,16 +253,18 @@ public class MainActivity extends AppCompatActivity {
 						buttonPoetry.setVisibility(View.INVISIBLE);
 
 					// Load images.
-					Integer[] images = new Location().getImages(1);
+					Integer[] images = new Location().getImages(locationIndex);
 					for (Integer image : images) {
-						layoutPicture.addView(getImageView(image));
+						ImageView picView = getImageView(image);
+						layoutPicture.addView(picView);
 					}
 					// Check if there are any images and show the button.
 					if (images.length > 0)
 						buttonPicture.setVisibility(View.VISIBLE);
 					else
 						buttonPicture.setVisibility(View.INVISIBLE);
-				} else {
+				} else if (locationIndex == -1) {
+					onLocation = false;
 					// Hide all content if shown.
 					if (buttonPoetry.getVisibility() == View.VISIBLE)
 						buttonPoetry.setVisibility(View.INVISIBLE);
@@ -273,6 +277,10 @@ public class MainActivity extends AppCompatActivity {
 
 					if (scrollPicture.getVisibility() == View.VISIBLE)
 						scrollPicture.setVisibility(View.INVISIBLE);
+
+					// Remove poetry and picture view so they don't pile on top.
+					layoutPoetry.removeAllViews();
+					layoutPicture.removeAllViews();
 				}
 			}
 		};
@@ -302,6 +310,29 @@ public class MainActivity extends AppCompatActivity {
 
 			// Create preview view and set is as the content of our activity.
 			this.cameraPreview = new CameraPreview(this, this.camera);
+			// Also change orientation of the camera display.
+			Camera.CameraInfo info = new Camera.CameraInfo();
+			android.hardware.Camera.getCameraInfo(CameraHelper.getCameraId(), info);
+			int rotation = this.getWindowManager().getDefaultDisplay().getRotation();
+			int degrees = 0;
+			switch (rotation) {
+				case Surface.ROTATION_0:
+					degrees = 0;
+					break;
+				case Surface.ROTATION_90:
+					degrees = 90;
+					break;
+				case Surface.ROTATION_180:
+					degrees = 180;
+					break;
+				case Surface.ROTATION_270:
+					degrees = 270;
+					break;
+			}
+
+			int result = (info.orientation - degrees + 360) % 360;
+			camera.setDisplayOrientation(result);
+
 			FrameLayout preview = (FrameLayout) findViewById(R.id.layout_camera);
 			preview.addView(this.cameraPreview);
 
